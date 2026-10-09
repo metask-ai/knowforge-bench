@@ -1,0 +1,40 @@
+# knowforge-bench configuration.  Copy to config.toml and fill in YOUR endpoints.
+data_dir = "data"           # question sets fetched by data/fetch_*.py (relative to this file)
+# The authors' model endpoints are not public.  The knowledge bases need a free account: register at
+# https://mind.metask-ai.com, copy your API key into [kb] api_key, then run `python -m kfbench.run subscribe` once.
+#
+# Two kinds of model are involved and they are configured separately:
+#   [model]   a TEXT model (OpenAI-compatible chat) — Locator, bridge judge, Deep Reader, synthesizer, format checker
+#   [vision]  a model WITH IMAGE INPUT — used only by read_media (the Deep Reader's "look at this figure/table" tool)
+# [vision] is opt-in.  If you leave it out, read_media is disabled and the run is recorded as such
+# (on MMLongBench-Doc this costs most of the chart/figure questions; on text-only MultiHop-RAG it costs nothing).
+
+[model]
+base_url = "https://YOUR-OPENAI-COMPATIBLE-ENDPOINT/v1"
+model    = "your-text-model"
+api_key  = ""
+# extra_body = { chat_template_kwargs = { enable_thinking = false } }   # e.g. disable a model's thinking mode
+timeout_s = 120
+
+# Optional: a different model for individual stages (each table takes the same keys as [model]; unset keys inherit).
+# [stages.locator]  model = "a-cheaper-model"
+# [stages.reader]   model = "a-stronger-model"
+# [stages.bridge]   ...
+# [stages.synth]    ...
+# [stages.checker]  ...
+
+# [vision]                  # uncomment to enable read_media
+# base_url = "https://YOUR-VISION-ENDPOINT/v1"
+# model    = "your-vision-model"
+# api_key  = ""
+
+# [judge]                   # MMLongBench-Doc scoring only (the benchmark's model-judge protocol). Report the judge you used.
+# base_url = "https://YOUR-JUDGE-ENDPOINT/v1"
+# model    = "your-judge-model"
+# api_key  = ""
+
+[kb]
+base_url = "https://mind.metask-ai.com"        # KnowForge retrieval API (read-only; routes each package UUID to the node that hosts it)
+api_key  = ""                                  # your account's API key ("MCP resource packages" page), or set KFBENCH_KB_API_KEY
+packages_file = "data/kb_packages.json"        # knowledge-base package UUIDs per benchmark (published with this repo)
+rate_sleep_s = 0                               # seconds to sleep between KB calls (the server rate-limits per UUID)

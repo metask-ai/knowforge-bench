@@ -1,0 +1,39 @@
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.pdf
+# Python
+__pycache__/
+*.pyc
+.venv/
+# never
+.env*
+*.key
+*secret*
+# local-only: your endpoints, fetched datasets, run outputs
+config.toml
+config.local.toml
+data/kb_packages.local.json
+data/m3docvqa/
+data/multihop_rag/
+data/mmlongbench_doc/
+data/vendor/
+results/
+*.xdv
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+*.toc
+# the paper (LaTeX + PDFs) is kept out of this repository
+paper/
